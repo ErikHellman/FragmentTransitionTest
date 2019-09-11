@@ -11,12 +11,29 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import androidx.transition.ChangeBounds
+import androidx.transition.ChangeImageTransform
+import androidx.transition.ChangeTransform
+import androidx.transition.TransitionSet
 import com.squareup.picasso.Picasso
 import se.hellsoft.fragmenttransitiontest.databinding.FragmentListBinding
 import se.hellsoft.fragmenttransitiontest.databinding.ImageItemBinding
 
 class ListFragment : Fragment() {
     lateinit var binding: FragmentListBinding
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        sharedElementEnterTransition = TransitionSet()
+            .addTransition(ChangeBounds())
+            .addTransition(ChangeTransform())
+            .addTransition(ChangeImageTransform())
+        sharedElementReturnTransition = TransitionSet()
+            .addTransition(ChangeBounds())
+            .addTransition(ChangeTransform())
+            .addTransition(ChangeImageTransform())
+
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -32,16 +49,14 @@ class ListFragment : Fragment() {
             override fun navigateToImage(url: String, imageView: ImageView) {
                 Log.d("ListFragment", "Navigating to $url with shared element: $imageView")
                 val fragment = ImageFragment()
-                fragment.sharedElementEnterTransition = ChangeBounds()
-                fragment.sharedElementReturnTransition = ChangeBounds()
                 fragment.arguments = Bundle().also { it.putString(ImageFragment.ARG_URL, url) }
 
                 requireFragmentManager()
                     .beginTransaction()
                     .setReorderingAllowed(true)
-                    .addSharedElement(imageView, getString(R.string.imageViewTransitionName))
-                    .addToBackStack(null)
                     .replace(R.id.fragment_container, fragment)
+                    .addToBackStack("imageFragment")
+                    .addSharedElement(imageView, getString(R.string.imageViewTransitionName))
                     .commit()
             }
         }
