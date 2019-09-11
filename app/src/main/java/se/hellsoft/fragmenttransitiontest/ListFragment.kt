@@ -32,8 +32,8 @@ class ListFragment : Fragment() {
             override fun navigateToImage(url: String, imageView: ImageView) {
                 Log.d("ListFragment", "Navigating to $url with shared element: $imageView")
                 val fragment = ImageFragment()
-                fragment.sharedElementEnterTransition = ChangeBounds().also { it.duration = 5000L }
-                fragment.sharedElementReturnTransition = ChangeBounds().also { it.duration = 5000L }
+                fragment.sharedElementEnterTransition = ChangeBounds()
+                fragment.sharedElementReturnTransition = ChangeBounds()
                 fragment.arguments = Bundle().also { it.putString(ImageFragment.ARG_URL, url) }
 
                 requireFragmentManager()
