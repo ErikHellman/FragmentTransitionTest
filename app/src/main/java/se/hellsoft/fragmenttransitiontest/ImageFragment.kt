@@ -32,6 +32,7 @@ class ImageFragment : Fragment() {
                 override fun onSuccess() {
                     Log.d("ImageFragment", "onSuccess")
                     startPostponedEnterTransition()
+                    binding.textView.text = "Image Loaded!"
                 }
 
                 override fun onError(e: Exception?) {
