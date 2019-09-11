@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">Fragment Transition Test</string>
+    <string name="imageViewTransitionName">ImageViewTransition</string>
+</resources>
