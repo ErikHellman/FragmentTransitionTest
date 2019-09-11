@@ -1,7 +1,6 @@
 package se.hellsoft.fragmenttransitiontest
 
 import android.os.Bundle
-import android.transition.ChangeBounds
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -11,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import androidx.transition.ChangeBounds
 import com.squareup.picasso.Picasso
 import se.hellsoft.fragmenttransitiontest.databinding.FragmentListBinding
 import se.hellsoft.fragmenttransitiontest.databinding.ImageItemBinding
@@ -32,9 +32,8 @@ class ListFragment : Fragment() {
             override fun navigateToImage(url: String, imageView: ImageView) {
                 Log.d("ListFragment", "Navigating to $url with shared element: $imageView")
                 val fragment = ImageFragment()
-                fragment.postponeEnterTransition()
-                fragment.sharedElementEnterTransition = ChangeBounds()
-                fragment.sharedElementReturnTransition = ChangeBounds()
+                fragment.sharedElementEnterTransition = ChangeBounds().also { it.duration = 5000L }
+                fragment.sharedElementReturnTransition = ChangeBounds().also { it.duration = 5000L }
                 fragment.arguments = Bundle().also { it.putString(ImageFragment.ARG_URL, url) }
 
                 requireFragmentManager()

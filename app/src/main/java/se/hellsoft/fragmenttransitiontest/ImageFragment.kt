@@ -5,11 +5,11 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.doOnPreDraw
 import androidx.fragment.app.Fragment
 import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
 import se.hellsoft.fragmenttransitiontest.databinding.FragmentItemBinding
-import java.lang.Exception
 
 class ImageFragment : Fragment() {
     lateinit var binding: FragmentItemBinding
@@ -31,7 +31,9 @@ class ImageFragment : Fragment() {
             .into(binding.imageView, object : Callback {
                 override fun onSuccess() {
                     Log.d("ImageFragment", "onSuccess")
-                    startPostponedEnterTransition()
+                    (view.parent as ViewGroup).doOnPreDraw {
+                        startPostponedEnterTransition()
+                    }
                     binding.textView.text = "Image Loaded!"
                 }
 
